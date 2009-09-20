@@ -1,0 +1,55 @@
+;;;;
+;;;; stklos-gtk-canvas.spi	-- STklos interface to GTK (base level)
+;;;; 
+;;;; Copyright © 2007-2009 Erick Gallesio - I3S-CNRS/ESSI <eg@essi.fr>
+;;;; 
+;;;; 
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;; 
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;; 
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+;;;; USA.
+;;;; 
+;;;;           Author: Erick Gallesio [eg@essi.fr]
+;;;;    Creation date: 26-Jun-2007 15:19 (eg)
+;;;; Last file update: 11-Sep-2009 19:31 (eg)
+;;;;
+(interface stklos-gtk-canvas
+  (language stklos)
+  (import stklos-gtk-base)
+  (export
+   (goo-canvas-new)
+   (goo-canvas-get-root-item widget0)
+   (goo-canvas-set-root-item widget0 pointer1)
+   (goo-canvas-set-bounds widget0 double1 double2 double3 double4)
+   (goo_canvas_item_scale  pointer0 double1 double2)
+   (goo-canvas-item-rotate pointer0 double1 double2 double3)
+   (goo_canvas_item_raise  pointer0 pointer1)
+   (goo_canvas_item_lower  pointer0 pointer1)
+   (goo-canvas-item-animate pointer0 double1 double2 double3 double4
+			    boolean5 integer6 integer7 integer8)
+   (goo-canvas-item-stop-animation pointer0)
+   (goo-canvas-item-remove pointer0)
+   
+
+   (goo-canvas-rect-new parent x y width length . args)
+
+   (goo-canvas-text-new parent string x y width anchor . args)
+
+   (goo-canvas-polyline-new-line  parent x1 y1 x2 y2 . args)
+   (goo-polyline-get-points line)
+   (goo-polyline-set-points! line lst)
+
+   (goo-canvas-path-new parent path . args)
+
+   (goo-canvas-ellipse-new  parent x y width height . args)
+  ))

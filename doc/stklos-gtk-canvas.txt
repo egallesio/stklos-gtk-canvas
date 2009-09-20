@@ -1,0 +1,150 @@
+Documentation for stklos-gtk-canvas
+===================================
+
+
+Description
+-----------
+
+
+Package API
+-----------
+goo-canvas-new
+~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-new)
+---------------------------------------------------------
+
+goo-canvas-get-root-item
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-get-root-item widget0)
+---------------------------------------------------------
+
+*Parameters*::
+- *widget0*: todo
+
+goo-canvas-set-root-item
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-set-root-item widget0 pointer1)
+---------------------------------------------------------
+
+*Parameters*::
+- *widget0*: todo
+
+- *pointer1*: todo
+
+goo-canvas-set-bounds
+~~~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-set-bounds
+  widget0
+  double1
+  double2
+  double3
+  double4)
+---------------------------------------------------------
+
+*Parameters*::
+- *widget0*: todo
+
+- *double1*: todo
+
+- *double2*: todo
+
+- *double3*: todo
+
+- *double4*: todo
+
+goo-canvas-item-rotate
+~~~~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-item-rotate
+  pointer0
+  double1
+  double2
+  double3)
+---------------------------------------------------------
+
+*Parameters*::
+- *pointer0*: todo
+
+- *double1*: todo
+
+- *double2*: todo
+
+- *double3*: todo
+
+
+
+goo-canvas-item-remove
+~~~~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-item-remove 
+  pointer0)
+---------------------------------------------------------
+
+*Parameters*::
+- *pointer0*: todo
+
+
+
+goo-canvas-rect-new
+~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-rect-new
+  parent
+  x
+  y
+  width
+  length
+  .
+  args)
+---------------------------------------------------------
+
+*Parameters*::
+- *parent*: todo
+
+- *x*: todo
+
+- *y*: todo
+
+- *width*: todo
+
+- *length*: todo
+
+- *args*: todo
+
+goo-canvas-text-new
+~~~~~~~~~~~~~~~~~~~
+
+---------------------------------------------------------
+(goo-canvas-text-new
+  root0
+  string1
+  double2
+  double3
+  double4
+  integer5)
+---------------------------------------------------------
+
+*Parameters*::
+- *root0*: todo
+
+- *string1*: todo
+
+- *double2*: todo
+
+- *double3*: todo
+
+- *double4*: todo
+
+- *integer5*: todo
+

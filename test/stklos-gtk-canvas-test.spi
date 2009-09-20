@@ -1,0 +1,12 @@
+;;; Test for ScmPkg package stklos-gtk-canvas
+;;;
+;;;           Author: Erick Gallesio [eg@essi.fr]
+;;;    Creation date: 19-Aug-2009 19:54 (eg)
+;;; Last file update: 19-Aug-2009 19:56 (eg)
+;;;
+
+(interface stklos-gtk-canvas-test
+  (language stklos)
+  (import stklos-gtk-canvas stklos-gtk-base recette)
+  (export (run args)))
+

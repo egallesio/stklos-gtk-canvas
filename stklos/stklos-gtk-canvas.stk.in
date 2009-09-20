@@ -1,0 +1,114 @@
+;;;;
+;;;; stklos-gtk-canvas.stk	-- STklos interface to Gnome/GTK canvas
+;;;; 
+;;;; Copyright © 2008-2009 Erick Gallesio - I3S-CNRS/ESSI <eg@unice.fr>
+;;;; 
+;;;; 
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;; 
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;; 
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+;;;; USA.
+;;;; 
+;;;;           Author: Erick Gallesio [eg@unice.fr]
+;;;;    Creation date: 19-May-2008 15:21 (eg)
+;;;; Last file update: 20-Sep-2009 22:29 (eg)
+;;;;
+
+(include "./utils-@GOOCANVAS@.stk")
+
+;;;;
+;;;; External Definitions
+;;;;
+(define-canvas goo-canvas-new () :pointer)
+(define-canvas goo-canvas-get-root-item (:pointer) :pointer)
+(define-canvas goo-canvas-set-root-item (:pointer :pointer) :void)
+(define-canvas goo-canvas-set-bounds (:pointer :double :double :double :double) :void)
+
+(define-canvas goo-canvas-item-scale (:pointer :double :double) :void)
+(define-canvas goo-canvas-item-rotate (:pointer :double :double :double) :void)
+(define-canvas goo-canvas-item-raise (:pointer :pointer) :void)
+(define-canvas goo-canvas-item-lower (:pointer :pointer) :void)
+(define-canvas goo-canvas-item-animate (:pointer :double :double :double :double
+					:boolean :int :int :int) :void)
+(define-canvas goo-canvas-item-stop-animation (:pointer) :void)
+(define-canvas goo-canvas-item-remove (:pointer) :void)
+
+;; ----------------------------------------------------------------------
+;; Rectangle
+;; ----------------------------------------------------------------------
+(define-canvas goo-canvas-rect-new (:pointer :double :double :double :double
+					     :pointer) :pointer)
+
+;; Redefine goo-canvas-rect-new to accept properties initialization
+(define C-goo-canvas-rect-new goo-canvas-rect-new)
+
+(define (goo-canvas-rect-new parent x y width length . args)
+  (let ((res (C-goo-canvas-rect-new parent x y width length (void))))
+    (cpointer-type-set! res 'goo-canvas-rectangle)
+    (%set-canvas-item-properties res args)))
+
+
+;; ----------------------------------------------------------------------
+;; Text
+;; ----------------------------------------------------------------------
+(define-canvas goo-canvas-text-new (:pointer :string :double :double :double :int
+				    :pointer) :pointer)
+
+;; Redefine goo-canvas-text-new to accept properties initialization
+(define C-goo-canvas-text-new goo-canvas-text-new)
+
+(define (goo-canvas-text-new parent string x y width anchor . args)
+  (let ((res (C-goo-canvas-text-new parent string x y width anchor (void))))
+    (cpointer-type-set! res 'goo-canvas-text)
+    (%set-canvas-item-properties res args)))
+
+;; ----------------------------------------------------------------------
+;; Polyline
+;; ----------------------------------------------------------------------
+(define-canvas goo-canvas-polyline-new-line (:pointer :double :double :double
+					     :double :pointer) :pointer)
+
+;; Redefine goo-canvas-polyline-new to accept properties initialization
+(define C-goo-canvas-polyline-new-line goo-canvas-polyline-new-line)
+
+(define (goo-canvas-polyline-new-line  parent x1 y1 x2 y2 . args)
+  (let ((res (C-goo-canvas-polyline-new-line parent x1 y1 x2 y2 (void))))
+    (cpointer-type-set! res 'goo-canvas-polyline)
+    (%set-canvas-item-properties res args)))
+
+;; ----------------------------------------------------------------------
+;; Path
+;; ----------------------------------------------------------------------
+(define-canvas goo-canvas-path-new (:pointer :string :pointer) :pointer)
+
+;; Redefine goo-canvas-polyline-new to accept properties initialization
+(define C-goo-canvas-path-new goo-canvas-path-new)
+
+(define (goo-canvas-path-new  parent path . args)
+  (let ((res (C-goo-canvas-path-new parent path (void))))
+    (cpointer-type-set! res 'goo-canvas-path)
+    (%set-canvas-item-properties res args)))
+
+;; ----------------------------------------------------------------------
+;; Ellipse
+;; ----------------------------------------------------------------------
+(define-canvas goo-canvas-ellipse-new (:pointer :double :double :double :double
+				       :pointer) :pointer)
+
+;; Redefine goo-canvas-polyline-new to accept properties initialization
+(define C-goo-canvas-ellipse-new goo-canvas-ellipse-new)
+
+(define (goo-canvas-ellipse-new  parent x y width height . args)
+  (let ((res (C-goo-canvas-ellipse-new parent x y width height (void))))
+    (cpointer-type-set! res 'goo-canvas-ellipse)
+    (%set-canvas-item-properties res args)))

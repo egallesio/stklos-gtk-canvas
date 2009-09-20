@@ -1,0 +1,90 @@
+;;;;
+;;;; utils-present.stk	-- File loaded when Goocanvas is present
+;;;; 
+;;;; Copyright © 2009 Erick Gallesio - Polytech'Nice-Sophia <eg@unice.fr>
+;;;; 
+;;;; 
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2 of the License, or
+;;;; (at your option) any later version.
+;;;; 
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;; 
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program; if not, write to the Free Software
+;;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+;;;; USA.
+;;;; 
+;;;;           Author: Erick Gallesio [eg@unice.fr]
+;;;;    Creation date: 20-Sep-2009 22:17 (eg)
+;;;; Last file update: 20-Sep-2009 22:18 (eg)
+;;;;
+
+(when-load-and-compile 
+
+ (define *gtk-library-path*
+   (append (build-path-from-shell-variable "STKLOS_GTK_DIR")
+	   '("/usr/lib"
+	     "/usr/local/lib"
+	     ;; For MacPorts
+	     "/opt/local/lib")))
+ 
+ (define *gtk-library-suffix* '("so"
+				"dylib"))
+ 
+ (define *canvas-lib-name* "libgoocanvas")
+ 
+ (define *canvas-lib* (or (find-path  *canvas-lib-name*
+				      *gtk-library-path*
+				      *gtk-library-suffix*)
+			  (error "Cannot find canvas library file ~S"
+				 *canvas-lib-name*)))
+
+ (define (dash->underscore s)
+   (let ((str (string-copy (symbol->string s))))
+     (dotimes (i (string-length str))
+       (if (char=? (string-ref str i) #\-)
+	   (string-set! str i #\_)))
+     str))
+ 
+
+ 
+ (define-macro (define-canvas name args return-type)
+   ;;  (define (pretty lst)
+   ;;    (map (lambda (x y) (format "~a~a" (if (eq? x ':pointer) 'widget x) y))
+   ;;	 lst
+   ;;	 (iota (length lst))))
+   `(begin
+      ;;(eprintf "  ~A\n" (cons ',name ',(pretty args)))
+      (define-external ,name ,args
+	:return-type ,return-type
+	:entry-name ,(dash->underscore name)
+	:library-name ,*canvas-lib*)))
+)
+
+;;;;
+;;;;  Utilities
+;;;;
+(define (%set-canvas-item-properties item args)
+  (let Loop ((args args))
+    (cond
+      ((null? args)
+       item)
+      ((null? (cdr args))
+       (error "bad association list ~S" args))
+      ((real? (cadr args))
+       (%g-objet-set-double item (car args) (cadr args))
+       (Loop (cddr args)))
+      ((integer? (cadr args))
+       (%g-objet-set-integer item (car args) (cadr args))
+       (Loop (cddr args)))
+      ((string? (cadr args))
+       (%g-objet-set-string item (car args) (cadr args))
+       (Loop (cddr args)))
+      (else
+       (error "type of property value unknown for property ~a (~S)"
+	      (car args) (cadr args))))))

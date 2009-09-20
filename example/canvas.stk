@@ -1,0 +1,76 @@
+;;; Test for ScmPkg package stklos-gtk-canvas
+;;;
+;;;           Author: Erick Gallesio [eg@essi.fr]
+;;;    Creation date: 19-Aug-2009 12:34 (eg)
+;;; Last file update: 19-Aug-2009 23:33 (eg)
+;;;
+
+(require "stklos-gtk-canvas")
+(import stklos-gtk-base stklos-gtk-canvas)
+
+;;;;
+;;;; Callbacks
+;;;;
+(define (on-rectangle-button-press . _)
+  (printf "rect item received button press event\n"))
+
+(define (on-delete-event widget event data)
+  (gtk-main-quit)
+  #f)
+
+;;;;
+;;;; Application
+;;;; 
+
+(define window #f)
+(define scrolled-win #f)
+(define canvas #f)
+(define root #f)		
+
+;; Initialize GTK+
+(gtk-init (void) (void))
+
+;; Create the window and widgets
+(set! window (gtk-window-new 0))
+(gtk-window-set-title window "Canvas in Scheme")
+(gtk-window-set-default-size window 640 600)
+(gtk-widget-show window)
+(g-signal-connect window "delete_event" on-delete-event 1)
+
+(set! scrolled-win (gtk-scrolled-window-new (void) (void)))
+(gtk-scrolled-window-set-shadow-type scrolled-win 1) ; 1 = GTK_SHADOW_IN
+(gtk-widget-show scrolled-win)
+(gtk-container-add window scrolled-win)
+
+(set! canvas (goo-canvas-new))
+(gtk-widget-set-size-request canvas 600 450)
+(goo-canvas-set-bounds canvas 0 0 1000 1000)
+(gtk-widget-show canvas)
+(gtk-container-add scrolled-win canvas)
+
+(define root (goo-canvas-get-root-item canvas))
+
+;; Add a few simple items
+(define rect-item (goo-canvas-rect-new root 100 100 400 400
+				       "line-width" 10.0
+				       "radius-x" 20.0
+				       "radius-y" 10.0
+				       "stroke-color" "yellow"
+				       "fill-color" "red"))
+
+
+(define text-item (goo-canvas-text-new root "Hello World" 300.0 300.0 -1.0
+				       0 ;; 0 = GTK_ANCHOR_CENTER,
+				       "font" "Sans 24"))
+
+(goo-canvas-item-rotate text-item 45 300 300)
+(g-signal-connect rect-item "button_press_event" on-rectangle-button-press 100)
+			
+;; Here we go....
+(let ((thr (make-thread (lambda ()
+			  (gtk-main)
+			  (eprintf "End of GTK+ thread\n")))))
+  ;; thr is the GTK+ thread in charge of GTK+ event
+  (thread-join! (thread-start! thr))
+  ;; GTK thread is dead; we can exit
+  (exit 0))

@@ -1,0 +1,8 @@
+(
+ (description "Gnome/GTK+ canvas binding for STklos")
+ (version 0.99.0)
+ (author "Erick Gallesio <eg at unice.fr>")
+ (maintainer "Erick Gallesio <eg at unice.fr>")
+ (stklos-doc (html))
+ (license gpl-2.1)
+)

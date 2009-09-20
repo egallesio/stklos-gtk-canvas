@@ -1,0 +1,57 @@
+;;; Test for ScmPkg package stklos-gtk-base
+;;;
+;;;           Author: Erick Gallesio [eg@essi.fr]
+;;;    Creation date: 01-Aug-2007 19:34 (eg)
+;;; Last file update: 19-Aug-2009 19:58 (eg)
+;;;
+
+(define window #f)
+(define scrolled-win #f)
+(define canvas #f)
+(define root #f)		
+
+;; Callback
+(define (on-delete-event widget event data)
+  (gtk-main-quit)
+  #f)
+
+;; Initialize GTK+
+(gtk-init (void) (void))
+
+;; Create the window and widgets
+(set! window (gtk-window-new 0))
+(gtk-window-set-title window "Canvas in Scheme")
+(gtk-window-set-default-size window 640 600)
+(gtk-widget-show window)
+(g-signal-connect window "delete_event" on-delete-event 1)
+
+(set! scrolled-win (gtk-scrolled-window-new (void) (void)))
+(gtk-scrolled-window-set-shadow-type scrolled-win 1) ; 1 = GTK_SHADOW_IN
+(gtk-widget-show scrolled-win)
+(gtk-container-add window scrolled-win)
+
+(set! canvas (goo-canvas-new))
+(gtk-widget-set-size-request canvas 600 450)
+(goo-canvas-set-bounds canvas 0 0 1000 1000)
+(gtk-widget-show canvas)
+(gtk-container-add scrolled-win canvas)
+
+(define root (goo-canvas-get-root-item canvas))
+
+;; Add a few simple items
+(define rect-item (goo-canvas-rect-new root 100 100 400 400
+				       "line-width" 10.0
+				       "radius-x" 20.0
+				       "radius-y" 10.0
+				       "stroke-color" "yellow"
+				       "fill-color" "red"))
+
+;; ----------------------------------------------------------------------
+;;	run ...
+;; ----------------------------------------------------------------------
+(define (run names)
+  (let ((thr (make-thread (lambda ()
+			    (gtk-main)
+			    (eprintf "End of GTK+ thread\n")))))
+    (thread-join! (thread-start! thr))
+    (exit 0)))

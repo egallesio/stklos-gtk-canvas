@@ -1,0 +1,12 @@
+
+			STKLOS-GTK-CANVAS
+
+This is a simple binding of GooCanvas GTK+ functions for STklos. This
+binding intensively uses the STklos FFI and is mostly written in
+Scheme. The binding is quite direct and programming interfaces with it
+is low level and very similar to programming a goocanvas in C. A
+simple example of canvas usage is given in the example directory.
+
+Enjoy 
+
+Erick Gallesio
