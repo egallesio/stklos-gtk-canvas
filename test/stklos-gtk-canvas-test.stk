@@ -2,7 +2,7 @@
 ;;;
 ;;;           Author: Erick Gallesio [eg@essi.fr]
 ;;;    Creation date: 01-Aug-2007 19:34 (eg)
-;;; Last file update: 19-Aug-2009 19:58 (eg)
+;;; Last file update: 22-Aug-2010 10:32 (eg)
 ;;;
 
 (define window #f)
@@ -10,10 +10,14 @@
 (define canvas #f)
 (define root #f)		
 
-;; Callback
+;; Callbacks
 (define (on-delete-event widget event data)
   (gtk-main-quit)
   #f)
+
+(define (on-rect-button-press item event data)
+  (eprintf "rect item received button press event\n")
+  #t)
 
 ;; Initialize GTK+
 (gtk-init (void) (void))
@@ -45,6 +49,15 @@
 				       "radius-y" 10.0
 				       "stroke-color" "yellow"
 				       "fill-color" "red"))
+(define text-item (goo-canvas-text-new root "Hello World" 300 300 -1
+				       0
+				       "font" "Sans 24"))
+
+(goo-canvas-item-rotate text-item -45 300 300)
+
+;; Connect a signal handler for the rectangle item.
+(g-signal-connect rect-item "button_press_event" on-rect-button-press 0)
+
 
 ;; ----------------------------------------------------------------------
 ;;	run ...
