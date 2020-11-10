@@ -29,8 +29,8 @@ VERSION=1.0.0
 PACKAGE=stklos-gtk-canvas
 
 dnl test if libgoocanvas exists
-if pkg-config --exists goocanvas 2> /dev/null
-then 
+if [[ $(pkg-config --exists goocanvas-2.0 2> /dev/null) ]] -o [[ $(pkg-config --exists goocanvas 2> /dev/null) ]]
+then
      GOOCANVAS="present"
      CFLAGS="$CFLAGS -DHAVE_GOO `pkg-config goocanvas --cflags --libs`"
 else
